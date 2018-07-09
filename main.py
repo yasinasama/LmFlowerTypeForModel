@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import time
+import os
 
 from flask import Flask, request, render_template
 from PIL import Image
@@ -14,7 +15,7 @@ def upload_image():
         fn = image_build(model_image,flower_image)
         return fn
     except Exception as e:
-        return str(e)
+        raise e
 
 
 @app.route('/')
@@ -43,6 +44,8 @@ def image_build(m,f):
 
     fn = str(int(time.time()))+'.jpg'
     path = './static/img/'
+    if not os.path.exists(path):
+        os.makedirs(path)
     abs_name = path+fn
     flower.save(abs_name)
     return abs_name
