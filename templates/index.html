@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.js"></script>
+    </head>
+
+    <body>
+        <div class="file">
+            <form action="http://gohosts.com/index.php" enctype="multipart/form-data" method="post">
+                <div>
+                    请选择模特图片：<input type="file" name="model_file">
+                </div>
+                <div>
+                    请选择花型图片(花型图大小必须大于等于模特图大小)：<input type="file" name="flower_file">
+                </div>
+            </form>
+        </div>
+        <div class="content">
+            <button class="btn_2" id="ajaxSubmit">提交</button>
+        </div>
+        <img id='images' src="" alt="" height="600" width="400">
+        <script type="text/javascript">
+            $("#ajaxSubmit").click(function() {
+                var data = new FormData();
+                data.append('model',$(" input[ name='model_file' ] ")[0].files[0]);
+                data.append('flower',$(" input[ name='flower_file' ] ")[0].files[0]);
+
+                $.ajax({
+                    url: '/upload',
+                    type: 'POST',
+                    cache: false,
+                    data: data,
+                    processData: false,
+                    contentType: false
+                }).done(function(res) {
+                    $("#images").attr("src",res);
+                }).fail(function(res) {});
+
+            });
+        </script>
+
+    </body>
+
+</html>
+
